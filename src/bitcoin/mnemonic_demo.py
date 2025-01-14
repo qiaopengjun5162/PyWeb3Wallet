@@ -16,5 +16,5 @@ print(f"word: {words}")
 
 seed = mnemo.to_seed(words, passphrase="")
 entropy = mnemo.to_entropy(words)
-print(f"seed: {seed}")
+
 print(f"entropy: {entropy}")
