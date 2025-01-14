@@ -1,0 +1,58 @@
+fail_fast: false  # 设置为 false，允许钩子失败后继续执行其他钩子
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      # 字节顺序标记检查
+      - id: check-byte-order-marker
+      # 大小写冲突检查
+      - id: check-case-conflict
+      # 合并冲突检查
+      - id: check-merge-conflict
+      # 检查符号链接
+      - id: check-symlinks
+      # 检查 YAML 文件
+      - id: check-yaml
+      # 文件末尾修正
+      - id: end-of-file-fixer
+      # 行尾混合换行符检查
+      - id: mixed-line-ending
+      # 检查尾部空白字符
+      - id: trailing-whitespace
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.5.18
+    hooks:
+      # Update the uv lockfile
+      - id: uv-lock
+      # To autoexport uv.lock to requirements.txt
+      - id: uv-export
+      # Compile requirements
+      - id: pip-compile
+        args: [ requirements.in, -o, requirements.txt ]
+  - repo: https://github.com/psf/black
+    rev: 24.10.0
+    hooks:
+      - id: black
+  - repo: local
+    hooks:
+      - id: ruff check
+        name: ruff check
+        description: ruff check.
+        entry: bash -c 'uv run ruff check'
+        language: python
+        files: \.rs$
+        args: [ ]
+      - id: typos
+        name: typos
+        description: check typo
+        entry: bash -c 'typos'
+        language: rust
+        files: \.*$
+        pass_filenames: false
+      - id: format
+        name: format
+        description: check and format code in `src` directories
+        entry: bash -c 'uv run ruff format --check src'
+        language: system
+        files: ^src/.*$  # 匹配 src 和 tests 目录下的文件
+        pass_filenames: false

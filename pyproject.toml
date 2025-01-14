@@ -1,0 +1,12 @@
+[project]
+name = "pyweb3wallet"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "hdwallet>=3.2.3",
+    "mnemonic>=0.21",
+    "requests>=2.32.3",
+    "ruff>=0.9.1",
+]
