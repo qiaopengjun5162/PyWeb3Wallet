@@ -19,6 +19,7 @@ repos:
       - id: mixed-line-ending
       # 检查尾部空白字符
       - id: trailing-whitespace
+
   - repo: https://github.com/astral-sh/uv-pre-commit
     rev: 0.5.18
     hooks:
@@ -29,30 +30,36 @@ repos:
       # Compile requirements
       - id: pip-compile
         args: [ requirements.in, -o, requirements.txt ]
+
   - repo: https://github.com/psf/black
     rev: 24.10.0
     hooks:
       - id: black
+
   - repo: local
     hooks:
-      - id: ruff check
+      - id: ruff-check
         name: ruff check
-        description: ruff check.
-        entry: bash -c 'uv run ruff check'
+        description: Static linting using ruff
+        entry: uv run ruff check
         language: python
-        files: \.rs$
+        language_version: python3.12  # 确保使用特定版本的 Python
+        files: \.py$
         args: [ ]
+
       - id: typos
         name: typos
-        description: check typo
-        entry: bash -c 'typos'
+        description: Check for typos in all files
+        entry: typos
         language: rust
+        language_version: stable  # Rust 稳定版本
         files: \.*$
         pass_filenames: false
+
       - id: format
         name: format
-        description: check and format code in `src` directories
-        entry: bash -c 'uv run ruff format --check src'
+        description: Format code using ruff in `src` directories
+        entry: uv run ruff format --check src
         language: system
-        files: ^src/.*$  # 匹配 src 和 tests 目录下的文件
+        files: ^src/.*$|^tests/.*$  # 匹配 src 和 tests 目录下的所有文件
         pass_filenames: false
