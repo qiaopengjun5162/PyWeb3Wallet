@@ -63,3 +63,11 @@ repos:
         language: system
         files: ^src/.*$|^tests/.*$  # 匹配 src 和 tests 目录下的所有文件
         pass_filenames: false
+
+      - id: Mypy
+        name: Mypy
+        description: Format code using ruff in `src` directories
+        entry: uv run mypy src
+        language: system
+        files: ^src/.*$|^tests/.*$  # 匹配 src 和 tests 目录下的所有文件
+        pass_filenames: false
